@@ -1,0 +1,22 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>    
+
+  <session-factory>
+    <!-- Database connection settings -->
+    <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
+     <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
+     <property name="hibernate.hbm2ddl.auto">create</property>
+    <property name="connection.url">jdbc:mysql://localhost:3306/tester</property>
+    <property name="connection.username">root</property>
+    <property name="connection.password">administrator</property>
+    <property name="show_sql">true</property>   
+    <mapping class="model.Page" />
+
+   
+       
+  </session-factory>
+  
+</hibernate-configuration>
