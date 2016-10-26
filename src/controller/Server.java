@@ -36,23 +36,37 @@ public class Server extends Thread {
 
   @Override
     public void run() {
-       
+       int counter = 0;
 
-	  threadPool = Executors.newFixedThreadPool(5);
-  	running = true;
-  	while (running)
-  	{
-      	System.out.println("Waiting for clients");
-          // wait for a client to connect            
-  		try {
-			clientSocket = serverSocket.accept();
+
+ 	  threadPool = Executors.newFixedThreadPool(5);
+   	running = true;
+   	while (running)
+   	{
+       	System.out.println("Waiting for clients");
+           // wait for a client to connect            
+   		try {
+ 			clientSocket = serverSocket.accept();
+ 		} catch (IOException e) {
+ 			// TODO Auto-generated catch block
+ 			e.printStackTrace();
+ 		}
+   		System.out.println("Accepted client");
+   		UserClient connection = null;
+		try {
+			counter++;
+			connection = new UserClient(clientSocket);
+			connection.setId(counter);
+		} catch (UnknownHostException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-  		System.out.println("Accepted client");
-  		ConnectionHandler connection = new ConnectionHandler(clientSocket);
-  		threadPool.execute(connection);
+   		threadPool.execute(connection);
+   
+
   		
 }
     	

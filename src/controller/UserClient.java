@@ -45,31 +45,20 @@ import util.Facade;
         
             
             	
-               System.out.println("Connecting to " + host + " on port " + portNumber);
-               try {
-				clientSocket = new Socket(host, portNumber);
-			} catch (UnknownHostException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+              
+        	
+        	 System.out.println("I am client # " + this.id + " and I connected to : " + clientSocket.getRemoteSocketAddress());
                
-               System.out.println("Just connected to " + clientSocket.getRemoteSocketAddress());
+        }
+               
+				//clientSocket = new Socket(host, portNumber);
+		
+               
+           
                
               //facade = MoodWatchFacade.instance();
-              
 
-              try {
-				stopRunning();
-				System.out.println("Closing client socket");
-				
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-            }
+            
                
             
         public void stopRunning() throws IOException

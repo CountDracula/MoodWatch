@@ -6,7 +6,7 @@ import java.io.PrintWriter;
 import java.net.Socket;
 
 
-/// Ignore this file, just used it for testing purposes. Will remove it later.
+
 public class ConnectionHandler implements Runnable {
  
   private Socket socket;

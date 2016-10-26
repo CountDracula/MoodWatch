@@ -27,10 +27,11 @@ new Thread(server).start();
 
 Thread.sleep(1000);
 
-for (int i = 0; i<10; i++)
+for (int i = 0; i<5; i++)
 {
 UserClient userClient = new UserClient(new Socket("localhost", 6066));
-System.out.println("New client");
+userClient.setId(i+1);
+
 }
 
 
