@@ -8,6 +8,7 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+/// TODO: rename UserClient to something better + rename connection to user or something
 public class Server extends Thread {
     
 	
@@ -38,7 +39,7 @@ public class Server extends Thread {
     public void run() {
        int counter = 0;
 
-
+      // TODO: use non-fixed pool? && make acceptClients() method so this shit doesn't get unreadable..
  	  threadPool = Executors.newFixedThreadPool(5);
    	running = true;
    	while (running)
@@ -51,11 +52,14 @@ public class Server extends Thread {
  			// TODO Auto-generated catch block
  			e.printStackTrace();
  		}
-   		System.out.println("Accepted client");
+   	
    		UserClient connection = null;
 		try {
 			counter++;
 			connection = new UserClient(clientSocket);
+			System.out.println("Accepted client");
+			
+			//Just to test multiple clients
 			connection.setId(counter);
 		} catch (UnknownHostException e) {
 			// TODO Auto-generated catch block
@@ -65,7 +69,8 @@ public class Server extends Thread {
 			e.printStackTrace();
 		}
    		threadPool.execute(connection);
-   
+   		
+   		//TODO threadpool shutdown?
 
   		
 }

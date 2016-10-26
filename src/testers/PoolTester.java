@@ -21,16 +21,18 @@ public class PoolTester {
 		
 
 // Start server		
-
 Server server = new Server (6066);	
 new Thread(server).start();
 
+/// Just to ensure it's running before we create clients
 Thread.sleep(1000);
 
+
+/// Create multiple clients
 for (int i = 0; i<5; i++)
 {
 UserClient userClient = new UserClient(new Socket("localhost", 6066));
-userClient.setId(i+1);
+
 
 }
 

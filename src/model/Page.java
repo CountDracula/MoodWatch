@@ -32,7 +32,8 @@ import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.Type;
 
 //POJO for Hibernate
-
+/// So this class creates table to the DB with java code
+/// Use scheme with name "tester" (without the " " )
 
 
 @Entity

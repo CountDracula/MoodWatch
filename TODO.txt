@@ -1,0 +1,19 @@
+DONE:
+
+-Basic server with support for multiple clients
+- Basic CRUD (Create, read, update, delete) with Hibernate
+- All necessary XTHML files (no functionality)
+
+
+TODO:
+- Send DB queries from client to server
+- Admin page functionality
+	- Log-in validation
+- User page functionality
+- Make components thread safe
+- Make everything look nice (CSS)
+
+
+(For Pepe only)
+- Add comments to code
+- Add instructions for running this 
