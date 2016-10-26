@@ -12,6 +12,7 @@ TODO:
 - User page functionality
 - Make components thread safe
 - Make everything look nice (CSS)
+- Observer pattern for updates at intervals?
 
 
 (For Pepe only)
