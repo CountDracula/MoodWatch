@@ -49,8 +49,8 @@ public class Server extends Thread {
 
     public Server(int portNumber) throws IOException {
     	
-    	this.portNumber = portNumber;
-        serverSocket = new ServerSocket(portNumber);
+    this.portNumber = portNumber;
+       this.serverSocket = new ServerSocket(this.portNumber);
        initDB();
        
         

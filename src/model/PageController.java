@@ -52,6 +52,7 @@ public class PageController {
 	
 private String page;
 private String site;
+private Date timestamp;
 
 
 
@@ -62,11 +63,6 @@ private String site;
 			
 		}
 	 
-	 @PostConstruct
-	 public void initChoices()
-	 {
-		
-	 }
 
 	
 	
@@ -87,13 +83,13 @@ private String site;
 	}
 
 
-	//public Date getTimestamp() {
-	//	return timestamp;
-	//}
+	public Date getTimestamp() {
+		return getTimestamp();
+	}
 
-	//public void setTimestamp(Date timestamp) {
-	//	this.timestamp = timestamp;
-	//}
+	public void setTimestamp(Date timestamp) {
+		this.timestamp = timestamp;
+	}
 
 	public void submit()
 	{
@@ -109,12 +105,12 @@ private String site;
 	    
 	      PageDao dao = new PageDao();
 	      dao.addPage(pageToAdd, siteToAdd);
-	      
-	      
-	      
-	        
-
-	        
+  
+	}
+	public List<Page> getPages()
+	{
+		PageDao dao = new PageDao();
+		return dao.getPages();
 	}
 	
 

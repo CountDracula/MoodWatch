@@ -7,7 +7,9 @@ import java.util.ArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import util.PageDao;
 import model.PageController;
+import net.IMoodWatch;
 import net.MoodWatchFacade;
 import controller.ConnectionHandler;
 import controller.UserClient;
@@ -47,10 +49,17 @@ pooltester.startServer();
 			userClient.setId(i);
 				clients.add(userClient);
 		new Thread(userClient).start();
+	
+		PageDao dao = new PageDao();
+		dao.addPage("Dikke"+i, "paska");
+		
+		
 
 		}
 
-		//server.clientShit();
+		PageDao dao = new PageDao();
+		dao.getPages();
+		
 
 
 	}

@@ -40,12 +40,12 @@ import org.hibernate.annotations.Type;
 
 
 @Entity
-@Table(name = "pages")
+@Table(name = "Pages")
 public class Page {
 	
 
 	@ElementCollection (targetClass=String.class)
-	@CollectionTable(name ="sites")
+	@CollectionTable(name ="Sites")
 	private Set<String> sites;
 		
 	 public Page() {

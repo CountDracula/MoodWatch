@@ -8,7 +8,7 @@
     <!-- Database connection settings -->
     <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
      <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
-     <property name="hibernate.hbm2ddl.auto">create</property>
+     <property name="hibernate.hbm2ddl.auto">update</property>
     <property name="connection.url">jdbc:mysql://localhost:3306/tester</property>
     <property name="connection.username">root</property>
     <property name="connection.password">administrator</property>

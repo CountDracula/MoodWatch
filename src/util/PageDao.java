@@ -1,10 +1,13 @@
 package util;
 
 import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
 
 import model.Page;
 
 import org.hibernate.HibernateException;
+import org.hibernate.Query;
 import org.hibernate.Session;
 
 import controller.Server;
@@ -52,6 +55,29 @@ session.close();
 }
 }
 	
+public List<Page> getPages()
+{
 
+	List<Page> pages = null;
+	Session session = DBManager.getSessionFactory().openSession();
+	
+	// use name of java class i.e. Page, not name of table i.e. Pages...
+	String hql = "from Page";
+	Query q = session.createQuery(hql);
+	
+	
+	pages =  q.list();
+	
+	for (Page page : pages)
+	{
+		
+		System.out.println("Page: " + page.getPage() + " " +" timestamp: " + page.getTimestamp());
+	}
+	
+		
+	
+	return pages;
+	
+}
 	
 }
