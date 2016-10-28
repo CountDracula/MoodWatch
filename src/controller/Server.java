@@ -1,12 +1,30 @@
 package controller;
 
+import java.io.BufferedReader;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.ObjectInputStream;
+import java.io.PrintStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+
+import util.DBManager;
 
 /// TODO: rename UserClient to something better + rename connection to user or something
 public class Server extends Thread {
@@ -16,66 +34,168 @@ public class Server extends Thread {
 	private Socket clientSocket = null;
     private ExecutorService threadPool; 
     private boolean running = false;
-    int portNumber;
+    private ArrayList<ClientHandler> connections;
+    private int portNumber;
+    private DBManager dbConn;
 
-    
+   private BufferedReader in = null;
+   public static Set sites;
+
+   
+   
 
     public Server(int portNumber) throws IOException {
     	
         serverSocket = new ServerSocket(portNumber);
-      
+        initDB();
+        sites =  Collections.synchronizedSet(new HashSet());
         
     }
 
+    public void initDB()
+    {
+    	dbConn = new DBManager();
+    	System.out.println("Created new DB manager");
+    }
+    
   public void stopServer() throws IOException
   {
+	  
+	  /// Add method-call to save data before shutting down
 	  serverSocket.close();
 	  clientSocket.close();
 	  running = false;
-	  System.out.println("Server shutting down.");
+	  System.out.println("Server shutting down..");
   }
 
   @Override
     public void run() {
-       int counter = 0;
+	 running = true;
+	 
 
       // TODO: use non-fixed pool? && make acceptClients() method so this shit doesn't get unreadable..
+	  // Can be moved to acceptClients()?
  	  threadPool = Executors.newFixedThreadPool(5);
-   	running = true;
-   	while (running)
-   	{
-       	System.out.println("Waiting for clients");
-           // wait for a client to connect            
-   		try {
- 			clientSocket = serverSocket.accept();
- 		} catch (IOException e) {
- 			// TODO Auto-generated catch block
- 			e.printStackTrace();
- 		}
-   	
-   		UserClient connection = null;
-		try {
-			counter++;
-			connection = new UserClient(clientSocket);
-			System.out.println("Accepted client");
-			
-			//Just to test multiple clients
-			connection.setId(counter);
-		} catch (UnknownHostException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-   		threadPool.execute(connection);
-   		
-   		//TODO threadpool shutdown?
 
+ 	  
+ 	 // Save data every X minutes  
+ 	//ScheduledExecutorService exec = Executors.newScheduledThreadPool(1);
+ 	//exec.scheduleAtFixedRate(periodicSaveData , 0, 15, TimeUnit.MINUTES);
+ 	
+ 	/// Method that listens to port 6066 and handles client connection(s)
+   	try {
+		acceptClients();
+	} catch (IOException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+   
+  }
+   	
+  
+  public void saveData(String page, String site)
+  {
+	  dbConn.addPage(page, site);
+  }
+   		
+public void acceptClients() throws IOException
+   	{
+	connections = new ArrayList<ClientHandler>();
+   		while (running)
+   	   	{
+   		   // wait for a client to connect  
+   	       	System.out.println("Waiting for clients");
+   	                  
+   	   		try {
+   	 			clientSocket = serverSocket.accept();
+   	 		} catch (IOException e) {
+   	 			// TODO Auto-generated catch block
+   	 			e.printStackTrace();
+   	 		}
+   	   	
+   	   		
+   			ClientHandler connection = new ClientHandler(clientSocket);
+   			connections.add(connection);
+   			System.out.println("Accepted client");
+			threadPool.execute(connection);
+
+			
+   			
+			//TODO threadpool shutdown? or clientSOcket.close
+
+   	   
+   	}
+   		
+   		
+   	
   		
 }
     	
-}
+Runnable periodicSaveData = new Runnable() {
+   	    public void run() {
+   	        /// Add method call (e.g. saveData() to save data to DB)
+   	    }
+   	};
+  
+  public void clientShit(ArrayList<UserClient> clients) throws IOException
+  {
+	  	
+	  /// Site == main page, thread = subpage. You have to check the output from addSite to use it for addThread, i.e. it's not just "NU" but the whole shebang as pointed below.
+ 	
+ 		
+ 
+ 		System.out.println(clients.get(0).getFacade().addSite("www.dutchnews.nl"));
+ 		System.out.println(clients.get(0).getFacade().addThread("DutchNews.nl brings daily news from The Netherlands in English", "/features"));
+ 		
+ 		System.out.println(clients.get(0).getFacade().getAllSites().toString());
+ 		System.out.println(clients.get(0).getFacade().getAllPages().toString());
+ 		
+ 		
+	
+  }
+  
+  class ClientHandler implements Runnable 
+  {
+      private Socket connection;
+       
+      ClientHandler(Socket connection) 
+      {
+          this.connection = connection;
+      }
+      public void run() 
+      {
+          String line;
+           
+          try
+          {
+              //Reader & writer
+              BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+              PrintStream out = new PrintStream(connection.getOutputStream());
+   
+              //Send welcome message to client (test only)
+              out.println("Welcome to the Server");
+              System.out.println("Welcome ");
+   
+              //Read client's input
+              while((line = br.readLine()) != null) 
+            {
+                  System.out.println("Server received: " + line + " from client");
+              }
+               
+              //Client disconnects,close socket
+              out.flush();
+              out.close();
+              br.close();
+              connection.close();
+          } 
+         
+          catch (IOException e) 
+          {
+              System.out.println("IOException on socket : " + e);
+              e.printStackTrace();
+          }
+      }
+  }
   
 }
  

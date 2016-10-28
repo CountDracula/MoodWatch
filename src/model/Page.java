@@ -14,6 +14,8 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
 import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
@@ -34,6 +36,7 @@ import org.hibernate.annotations.Type;
 //POJO for Hibernate
 /// So this class creates table to the DB with java code
 /// Use scheme with name "tester" (without the " " )
+
 
 
 @Entity

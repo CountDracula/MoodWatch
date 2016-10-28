@@ -11,17 +11,17 @@
     </h:head>
     <h:body>
     <h1>Overview of current websites:</h1>
-    List goes here
+    List goes here, did we update?
     
     <h2>Add a new page to track</h2>
-
-Page	<h:inputText>Page</h:inputText>
+<h:form id="testForm">
+Page	<h:inputText id="page" name="page" value="#{pagecontroller.page}">Page</h:inputText>
 <br></br>
-Site	<h:inputText>Site</h:inputText>
+Site	<h:inputText id="site" name="site" value="#{pagecontroller.site}">Site</h:inputText>
 <br></br>
 
-<h:commandButton value="Submit"></h:commandButton>
-  
+<h:commandButton value="Submit" action="#{pagecontroller.submit()}"></h:commandButton>
+</h:form>
       
     </h:body>
 </html>
