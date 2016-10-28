@@ -8,11 +8,12 @@ import model.*;
 public class CRUDTester {
 
 	public static void main(String[] args) {
-		DBManager db = new DBManager();
 		
-	
+		DBManager.buildSessionFactory();
 		
-		db.addPage("www.jatkoaika.com", "www.jatkoaika.com/mestis");
+		PageDao dao = new PageDao();
+		
+		dao.addPage("www.google.nl", "/dikke");
 
 	}
 

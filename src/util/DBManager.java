@@ -30,50 +30,28 @@ public class DBManager {
    
 private Session session;	
 private Configuration configuration;
-private SessionFactory factory;
+private static SessionFactory factory;
 	
 /// USED TO UPDATE DATABASE BY ADMINISTRATOR!
-//TODO check if session / factory is threadsafe
-	public DBManager() {
+
 		
-		configuration = new Configuration();
-    	configuration.configure("hibernate.cfg.xml");
-   		factory = configuration.buildSessionFactory();
-    	
-	}
+	    private static SessionFactory sessionFactory=buildSessionFactory();
+	    
+	    public static SessionFactory buildSessionFactory(){
+	         try {
+	             return new Configuration().configure("hibernate.cfg.xml").configure().buildSessionFactory();
+	         } catch (Throwable ex) {
+	             System.err.println("Initial SessionFactory creation failed." + ex);
+	             throw new ExceptionInInitializerError(ex);
+	         }
+	     }
+	   
+	     public static SessionFactory getSessionFactory() {
+	         return sessionFactory;
+	     }
+
+		
+	 }
 
 
-    	
-    public void addPage(String pageToAdd, String siteToAdd)
-    
-    
-    {
-    	session = factory.openSession();
-		session.beginTransaction();
-        // persists two new Contact objects
-		Date timeNow = new Date();
-		
-	
-		try{
-	Page page = new Page(pageToAdd, siteToAdd);
-	page.setPage(pageToAdd);
-	page.getSites().add(siteToAdd);
-	
-	page.setTimestamp(timeNow);
-	
-		
-        session.persist(page);
-        System.out.println("Added page: " + page.getPage());
-                session.getTransaction().commit();
-		}
-  catch (HibernateException e)
-  {
-	  //ADD something
-  }
-  finally{
-	  session.close();
-  }
-       
-    }
-
-}
+   

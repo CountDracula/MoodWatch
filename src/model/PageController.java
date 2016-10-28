@@ -36,8 +36,11 @@ import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.Type;
 
+
+
 import testers.PoolTester;
 import util.DBManager;
+import util.PageDao;
 import controller.Server;
 
 
@@ -52,7 +55,7 @@ private String site;
 
 
 
-private Date timestamp;
+//private Date timestamp;
 		
 	 public PageController() {
 		
@@ -84,13 +87,13 @@ private Date timestamp;
 	}
 
 
-	public Date getTimestamp() {
-		return timestamp;
-	}
+	//public Date getTimestamp() {
+	//	return timestamp;
+	//}
 
-	public void setTimestamp(Date timestamp) {
-		this.timestamp = timestamp;
-	}
+	//public void setTimestamp(Date timestamp) {
+	//	this.timestamp = timestamp;
+	//}
 
 	public void submit()
 	{
@@ -102,7 +105,12 @@ private Date timestamp;
 	      // For debugging only  
 	      System.out.println(pageToAdd);
 	      System.out.println(siteToAdd);
-	      PoolTester.server.saveData(pageToAdd, siteToAdd);
+	     
+	    
+	      PageDao dao = new PageDao();
+	      dao.addPage(pageToAdd, siteToAdd);
+	      
+	      
 	      
 	        
 

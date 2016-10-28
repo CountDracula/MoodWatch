@@ -24,9 +24,12 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+import javax.faces.bean.ManagedBean;
+
 import util.DBManager;
 
 /// TODO: rename UserClient to something better + rename connection to user or something
+@ManagedBean (name ="server")
 public class Server extends Thread {
     
 	
@@ -36,26 +39,26 @@ public class Server extends Thread {
     private boolean running = false;
     private ArrayList<ClientHandler> connections;
     private int portNumber;
-    private DBManager dbConn;
+    public static DBManager dbConn;
 
    private BufferedReader in = null;
-   public static Set sites;
+
 
    
    
 
     public Server(int portNumber) throws IOException {
     	
+    	this.portNumber = portNumber;
         serverSocket = new ServerSocket(portNumber);
-        initDB();
-        sites =  Collections.synchronizedSet(new HashSet());
+       initDB();
+       
         
     }
 
     public void initDB()
     {
-    	dbConn = new DBManager();
-    	System.out.println("Created new DB manager");
+    	DBManager.buildSessionFactory();
     }
     
   public void stopServer() throws IOException
@@ -92,11 +95,7 @@ public class Server extends Thread {
    
   }
    	
-  
-  public void saveData(String page, String site)
-  {
-	  dbConn.addPage(page, site);
-  }
+ 
    		
 public void acceptClients() throws IOException
    	{
