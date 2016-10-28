@@ -66,15 +66,6 @@ private Date timestamp;
 	 }
 
 	
-	public void setServer(Server server)
-	{
-		this.server = server;
-	}
-	
-	public Server getServer()
-	{
-		return server;
-	}
 	
 	public String getPage() {
 		return page;
