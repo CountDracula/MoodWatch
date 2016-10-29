@@ -50,8 +50,8 @@ pooltester.startServer();
 				clients.add(userClient);
 		new Thread(userClient).start();
 	
-		PageDao dao = new PageDao();
-		dao.addPage("Dikke"+i, "paska");
+		//PageDao dao = new PageDao();
+		//dao.addPage("Dikke"+i, "paska");
 		
 		
 

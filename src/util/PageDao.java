@@ -18,8 +18,6 @@ public class PageDao {
 	{
 		
 	}
-	
-
 
 
 public void addPage(String pageToAdd, String siteToAdd)

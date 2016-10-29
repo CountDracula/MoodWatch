@@ -27,6 +27,7 @@ import java.util.concurrent.TimeUnit;
 import javax.faces.bean.ManagedBean;
 
 import util.DBManager;
+import util.LoginDAO;
 
 /// TODO: rename UserClient to something better + rename connection to user or something
 @ManagedBean (name ="server")
@@ -58,7 +59,13 @@ public class Server extends Thread {
 
     public void initDB()
     {
+    	// Init DB
     	DBManager.buildSessionFactory();
+    	
+    	///Create admin user in db for login validation page
+    	LoginDAO logindao = new LoginDAO();
+    	logindao.addUser("administrator", "admin");
+    	
     }
     
   public void stopServer() throws IOException

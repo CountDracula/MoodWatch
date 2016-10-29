@@ -107,6 +107,9 @@ private Date timestamp;
 	      dao.addPage(pageToAdd, siteToAdd);
   
 	}
+	
+	//TODO: add clear() method and add to submit so input fields get reset after submitting data
+	
 	public List<Page> getPages()
 	{
 		PageDao dao = new PageDao();
