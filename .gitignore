@@ -1,7 +1,7 @@
 # Created by https://www.gitignore.io/api/eclipse
 
 ### Eclipse ###
-
+.build/
 .metadata
 bin/
 tmp/

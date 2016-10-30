@@ -10,12 +10,16 @@
         <h:outputStylesheet name="common-style.css" library="css" />
     </h:head>
     <h:body>
-    <h1>Hello, root! Please select one: </h1>
+    <h1>Hello, #{logincontroller.user}! Please select one: </h1>
     
     
        <h:outputLink value="editEngines.xhtml">Edit engines</h:outputLink>
    <br></br>
-       <h:outputLink value="editWebsites.xhtml">Add or edit websites</h:outputLink>
+       <h:outputLink value="editWebsites.xhtml">View, add or edit websites</h:outputLink>
+      <br></br>
+     
+      <h:commandButton value="Logout" action="#{logincontroller.logOut()}"></h:commandButton>
+      
       
     </h:body>
 </html>

@@ -17,6 +17,9 @@ public class Login {
 	public String validateLogin()
 	{
 		FacesContext context = FacesContext.getCurrentInstance();
+		
+		
+		
 		boolean validLogin =  new LoginDAO().validate(user, password);
 		
 		if (validLogin)

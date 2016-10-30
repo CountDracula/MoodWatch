@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+
+<html lang="en"
+     xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    
+    <h:head>
+        <title>Administrator login</title>
+        <h:outputStylesheet name="common-style.css" library="css" />
+    </h:head>
+    <h:body>
+  
+ <h2>Please enter the valid credentials to login as admin</h2>       
+
+<h:form id="loginForm">
+User	<h:inputText id="user" name="user" required="true" requiredMessage="Field can't be empty" value="#{logincontroller.user}">User</h:inputText>
+
+<br></br>
+Password	<h:inputSecret id="password" name="password" required="true" requiredMessage="Field can't be empty" value="#{logincontroller.password}"></h:inputSecret>
+<br></br>
+<h:outputText id="error" name="error">Test</h:outputText>
+<h:message for="error"></h:message>
+<br></br>
+
+<h:commandButton value="Login" action="#{logincontroller.validateLogin()}"></h:commandButton>
+</h:form>
+      
+    </h:body>
+</html>

@@ -24,6 +24,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
 
 import util.DBManager;
@@ -31,6 +32,7 @@ import util.LoginDAO;
 
 /// TODO: rename UserClient to something better + rename connection to user or something
 @ManagedBean (name ="server")
+@ApplicationScoped
 public class Server extends Thread {
     
 	
@@ -123,6 +125,7 @@ public void acceptClients() throws IOException
    			ClientHandler connection = new ClientHandler(clientSocket);
    			connections.add(connection);
    			System.out.println("Accepted client");
+   			
 			threadPool.execute(connection);
 
 			
