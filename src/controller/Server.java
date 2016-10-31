@@ -27,6 +27,8 @@ import java.util.concurrent.TimeUnit;
 import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
 
+import net.IMoodWatch;
+import net.MoodWatchFacade;
 import util.DBManager;
 import util.LoginDAO;
 
@@ -83,7 +85,9 @@ public class Server extends Thread {
   @Override
     public void run() {
 	 running = true;
-	 
+	 IMoodWatch facade;
+	 facade = MoodWatchFacade.instance();
+	 facade.runDesktop();
 
       // TODO: use non-fixed pool? && make acceptClients() method so this shit doesn't get unreadable..
 	  // Can be moved to acceptClients()?
@@ -126,9 +130,7 @@ public void acceptClients() throws IOException
    			connections.add(connection);
    			System.out.println("Accepted client");
    			
-			threadPool.execute(connection);
-
-			
+			threadPool.execute(connection);		
    			
 			//TODO threadpool shutdown? or clientSOcket.close
 
@@ -146,22 +148,6 @@ Runnable periodicSaveData = new Runnable() {
    	    }
    	};
   
-  public void clientShit(ArrayList<UserClient> clients) throws IOException
-  {
-	  	
-	  /// Site == main page, thread = subpage. You have to check the output from addSite to use it for addThread, i.e. it's not just "NU" but the whole shebang as pointed below.
- 	
- 		
- 
- 		System.out.println(clients.get(0).getFacade().addSite("www.dutchnews.nl"));
- 		System.out.println(clients.get(0).getFacade().addThread("DutchNews.nl brings daily news from The Netherlands in English", "/features"));
- 		
- 		System.out.println(clients.get(0).getFacade().getAllSites().toString());
- 		System.out.println(clients.get(0).getFacade().getAllPages().toString());
- 		
- 		
-	
-  }
   
   class ClientHandler implements Runnable 
   {

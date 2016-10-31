@@ -12,6 +12,8 @@ import java.util.Date;
 
 
 import java.util.HashSet;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import javax.annotation.PostConstruct;
@@ -35,6 +37,10 @@ import javax.servlet.http.HttpServletRequest;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.Type;
+
+
+
+
 
 
 
@@ -115,6 +121,12 @@ private Date timestamp;
 	{
 		PageDao dao = new PageDao();
 		return dao.getPages();
+	}
+	
+	public ArrayList<Entry<Page, List<String>>> getAll()
+	{
+		PageDao dao = new PageDao();
+		return dao.getPSF();
 	}
 	
 

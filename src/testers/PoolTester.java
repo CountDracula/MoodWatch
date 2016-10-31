@@ -4,7 +4,9 @@ import java.io.IOException;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -21,10 +23,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import util.PageDao;
+import model.Page;
 import model.PageController;
 import net.IMoodWatch;
 import net.MoodWatchFacade;
-import controller.ConnectionHandler;
 import controller.UserClient;
 import controller.Server;
 
@@ -40,8 +42,6 @@ public static Server server;
 @ManagedProperty(value = "#{clients}")
 public  ArrayList<UserClient> clients;
 
-@ManagedProperty(value="#{test}")
-public String test;
 
 public static void main(String[] args) throws IOException, InterruptedException {
 	// TODO Auto-generated method stub
@@ -59,26 +59,46 @@ PoolTester pooltester = new PoolTester();
 
 
 		new Thread(server).start();
+		Thread.sleep(1000);
+	PageDao dao = new PageDao();
+//		IMoodWatch facade = MoodWatchFacade.instance();
+//		facade.addAllSites(dao.pagesToClient());
+//		
+//		System.out.println("DO WE GET HERE?");
+	String testSite = "www.jatkoaika.com";
+	
+	
+	
+	System.out.println("ALL PAGES ARE:");
+	ArrayList<String> pages = (ArrayList<String>) dao.pagesToClient();
+	for (String s : pages)
+	{
+		System.out.println(s);
+	}
+	
 
-pooltester.startServer();
+ArrayList<String> test = (ArrayList<String>) dao.threadsToClient().get(testSite);
+
+for (String s : test)
+{
+	System.out.println(s);
+}
+		
+
+//pooltester.startServer();
 	
 }	
 	@PostConstruct
 	public void startServer() throws InterruptedException, UnknownHostException, IOException
 	{
 		
-
-		/// Just to ensure it's running before we create clients
-
-		Thread.sleep(1000);
-		
 			
         clients = new ArrayList<UserClient>();
-		test = "perse";
-		
+	
+	
 		ExecutorService executor = Executors.newFixedThreadPool(5);
-		/// Create multiple clients
-		for (int i = 0; i<=5; i++)
+//		/// Create multiple clients
+		for (int i = 0; i<1; i++)
 		{
 			UserClient userClient = new UserClient();
 			userClient.setId(i);
@@ -87,31 +107,15 @@ pooltester.startServer();
 				
 		
 		clients.add(userClient);
-		
-	
-		//PageDao dao = new PageDao();
-		//dao.addPage("Dikke"+i, "paska");
-		
-	
-
 		}
 		
 	
-		PageDao dao = new PageDao();
-		dao.getPages();
-		
-		
 		
 
 	}
-	public String getTest() {
-		return test;
-	}
-	public void setTest(String test) {
-		this.test = test;
-	}
+
 	public ArrayList<UserClient> getClients() {
-		System.out.println("TESTI ON: " + test);
+	
 				return clients;
 	}
 	public void setClients(ArrayList<UserClient> clients) {
@@ -143,33 +147,6 @@ pooltester.startServer();
 		System.out.println("DELETING CLIENT: " + clients.get(retrieve).getId());
 	}
 	
-
-	
-	
-
-
-	
-	
-	
-	
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 	

@@ -46,7 +46,7 @@ public class Page {
 
 	@ElementCollection (targetClass=String.class)
 	@CollectionTable(name ="Sites")
-	private Set<String> sites;
+	private List sites;
 		
 	 public Page() {
 		
@@ -56,7 +56,7 @@ public class Page {
 	 public Page(String page, String siteToAdd)
 	 {
 		 this.page = page;
-		 this.sites = Collections.synchronizedSet(new HashSet());
+		 this.sites = Collections.synchronizedList(new ArrayList());
 		
 		 
 		
@@ -72,6 +72,7 @@ public class Page {
 	@Column (name="timestamp")
 	@Type(type="timestamp")
 	private Date timestamp;
+	
 	
 	@Column(name="pagename",nullable=false)
 	private String page; ///e.g. www.google.com
@@ -109,12 +110,12 @@ public class Page {
 
 	
 	
-	public Set<String> getSites() {
+	public List getSites() {
 		return this.sites;
 	}
 
 
-	public void setSites(Set<String> sites) {
+	public void setSites(List sites) {
 		this.sites = sites;
 	}
 

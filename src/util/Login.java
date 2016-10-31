@@ -1,5 +1,7 @@
 package util;
 
+import java.io.IOException;
+
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -27,7 +29,7 @@ public class Login {
 			 
 		     HttpSession session = (HttpSession) context.getExternalContext().getSession(true);
 		     session.setAttribute("username", user);
-		     return "adminindex";
+		     return "adminindex?faces-redirect=true";
 		}
 		else
 		{
@@ -37,15 +39,16 @@ public class Login {
 		}
 	}
 	
-	public String logOut()
+	public String logOut() throws IOException
 	{
 		FacesContext context = FacesContext.getCurrentInstance();
-		     HttpSession session = (HttpSession) context.getExternalContext().getSession(true);
-		 
-		     session.invalidate();
+		HttpSession session = (HttpSession) context.getExternalContext().getSession(true);
+		 System.out.println("LOGOUT CLICKED");
+		   
 		     user = null;
 		     password = null;
-		     return "index.xhtml";
+			 session.invalidate();
+		     return "index?faces-redirect=true";
 	}
 	
 	public String getPassword() {

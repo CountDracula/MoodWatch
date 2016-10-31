@@ -5,13 +5,16 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.InetSocketAddress;
 import java.net.Socket;
+import java.net.URL;
 import java.net.UnknownHostException;
+import java.util.Map;
 
 import javax.faces.bean.ManagedBean;
 
 import net.IMoodWatch;
 import net.MoodWatchFacade;
 import util.Facade;
+import util.PageDao;
 
  // this class handles each client connection
 
@@ -80,7 +83,6 @@ import util.Facade;
             
         	
 			this.facade = MoodWatchFacade.instance();
-			this.clientSocket = new Socket();
 			this.host = "localhost";
 			this.portNumber = 6066;
 		
@@ -88,9 +90,27 @@ import util.Facade;
             
        
         public void run() {
+        	
            running = true;
+        //   PageDao dao = new PageDao();
+           
+        //   Map<String, String> test;
+        //   System.out.println("DO WE GET HERE?");
+        //   test=facade.addAllSites(dao.pagesToClient());
+           
+        //   System.out.println("I AM CLIENT # " + id + "and my list is: ");
+         //  for (Map.Entry<String, String> entry : test.entrySet())
+        //   {
+       // 	   System.out.println(entry.getKey() + "/" + entry.getValue());
+       //    }
+           
+    
+           //facade.startEngine();
 
         try {
+        	PageDao dao = new PageDao();
+        	Map<String, String> test;
+        	//test = this.facade.addAllSites(dao.pagesToClient());
 			clientSocket = new Socket(host, portNumber);
 			ip =(((InetSocketAddress) clientSocket.getRemoteSocketAddress()).getAddress()).toString().replace("/","");
 			System.out.println("I am client # " + this.id + " and I connected to : " + clientSocket.getRemoteSocketAddress());
@@ -119,34 +139,25 @@ import util.Facade;
 		//	e.printStackTrace();
 	//	}
 		
-         out.println( msg );
-		System.out.println(msg + " sent to server" + "from client" + getId());
+   //  out.println( msg );
+	//	System.out.println(msg + " sent to server" + "from client" + getId());
 		 
 
 		 
 		 //// DO stuff with Facade
-		         
-
          
         }
-		 out.flush();
-		 out.close();  //Commented out or Hibernate freaks out. Close later
-		 try {
-			clientSocket.close();
-		} catch (IOException e) {
+		// out.flush();
+		//out.close();  //Commented out or Hibernate freaks out. Close later
+		// try {
+		//clientSocket.close();
+	//	} catch (IOException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		//	e.printStackTrace();
+		//}
         }
        
-        
-        
-        
-        	
-              
-        
-            
-               
+
             
         public Socket getClientSocket() {
 			return clientSocket;
@@ -160,7 +171,9 @@ import util.Facade;
 
 		public void stopRunning() throws IOException
         {
-		running = false;
+		this.running = false;
+		System.out.println("Stopping client #: " + this.id);
+		System.out.println("RUNNING ON: " + running);
 		
 		
 				
