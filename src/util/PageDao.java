@@ -72,6 +72,7 @@ if (pages.size()==0)
 	page.getSites().add(siteToAdd);
 	session.persist(page);
 	session.getTransaction().commit();
+
 	
 }
 
@@ -91,8 +92,9 @@ if (results.containsKey(pageToAdd))
 	results.get(pageToAdd).getSites().add(siteToAdd);
 	session.saveOrUpdate(results.get(pageToAdd));
 	session.getTransaction().commit();
+
 }
-else
+else if (pages.size()>0)
 {
 	session.beginTransaction();
 	Page page = new Page();
@@ -104,15 +106,10 @@ else
 	page.getSites().add(siteToAdd);
 	session.persist(page);
 	session.getTransaction().commit();
+
 }
 	
 
-
-
-
-
-	
-	
 
 try{
         

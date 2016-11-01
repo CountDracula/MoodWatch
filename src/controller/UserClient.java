@@ -98,40 +98,26 @@ import util.PageDao;
 
         try {
         	
-        	///TODO, do this over the socket
+        	
         	PageDao dao = new PageDao();
         	Collection<String> sites = dao.sitesToClient();
-        
-        	
-        	String testeroos = facade.addSite("www.nu.nl");
-        	System.out.println("HARALDS SITE: " + testeroos);
-        	
         	Map<String, List<String>> threads = dao.threadsToClient();
-       Map<String, String> allSites = facade.addAllSites(sites);
-       
-       for (Map.Entry<String,String> site : allSites.entrySet())
-       {
-    	   System.out.println("URL:" + site.getKey());
-    	   System.out.println("Site:" + site.getValue());
-       }
-       
-       
-       
-       
-       
-        	System.out.println(threads.get("www.jatkoaika.com"));
-        	Collection<String> threadsToAdd = threads.get("www.jatkoaika.com");
-        
-        Map<String, Boolean> checker = facade.addAllThreads("www.jatkoaika.com", threadsToAdd); 
-        
-        for (Map.Entry<String, Boolean> k : checker.entrySet())
-        {
-        	System.out.println("SITE: " + k.getKey());
-        	System.out.println("VALUE: " + k.getValue());
-        }
+        	
+        	
+        	for (String s : sites)
+        	{
+        		String k = facade.addSite(s);
+        		System.out.println(k);
+        	
+        		
+        		
+        	}
+        	
         
         	facade.startEngine();
-        
+        	
+        	
+        	//TODO send updates over socket?
 			clientSocket = new Socket(host, portNumber);
 			ip =(((InetSocketAddress) clientSocket.getRemoteSocketAddress()).getAddress()).toString().replace("/","");
 			System.out.println("I am client # " + this.id + " and I connected to : " + clientSocket.getRemoteSocketAddress());
@@ -146,7 +132,7 @@ import util.PageDao;
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-        String msg = "Paskaa";
+        String msg = "Testing";
         while (running)
         {
 		
