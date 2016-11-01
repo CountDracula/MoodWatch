@@ -7,6 +7,8 @@ import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.URL;
 import java.net.UnknownHostException;
+import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 import javax.faces.bean.ManagedBean;
@@ -92,25 +94,44 @@ import util.PageDao;
         public void run() {
         	
            running = true;
-        //   PageDao dao = new PageDao();
-           
-        //   Map<String, String> test;
-        //   System.out.println("DO WE GET HERE?");
-        //   test=facade.addAllSites(dao.pagesToClient());
-           
-        //   System.out.println("I AM CLIENT # " + id + "and my list is: ");
-         //  for (Map.Entry<String, String> entry : test.entrySet())
-        //   {
-       // 	   System.out.println(entry.getKey() + "/" + entry.getValue());
-       //    }
-           
-    
-           //facade.startEngine();
+  
 
         try {
+        	
+        	///TODO, do this over the socket
         	PageDao dao = new PageDao();
-        	Map<String, String> test;
-        	//test = this.facade.addAllSites(dao.pagesToClient());
+        	Collection<String> sites = dao.sitesToClient();
+        
+        	
+        	String testeroos = facade.addSite("www.nu.nl");
+        	System.out.println("HARALDS SITE: " + testeroos);
+        	
+        	Map<String, List<String>> threads = dao.threadsToClient();
+       Map<String, String> allSites = facade.addAllSites(sites);
+       
+       for (Map.Entry<String,String> site : allSites.entrySet())
+       {
+    	   System.out.println("URL:" + site.getKey());
+    	   System.out.println("Site:" + site.getValue());
+       }
+       
+       
+       
+       
+       
+        	System.out.println(threads.get("www.jatkoaika.com"));
+        	Collection<String> threadsToAdd = threads.get("www.jatkoaika.com");
+        
+        Map<String, Boolean> checker = facade.addAllThreads("www.jatkoaika.com", threadsToAdd); 
+        
+        for (Map.Entry<String, Boolean> k : checker.entrySet())
+        {
+        	System.out.println("SITE: " + k.getKey());
+        	System.out.println("VALUE: " + k.getValue());
+        }
+        
+        	facade.startEngine();
+        
 			clientSocket = new Socket(host, portNumber);
 			ip =(((InetSocketAddress) clientSocket.getRemoteSocketAddress()).getAddress()).toString().replace("/","");
 			System.out.println("I am client # " + this.id + " and I connected to : " + clientSocket.getRemoteSocketAddress());

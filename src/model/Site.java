@@ -41,19 +41,19 @@ import org.hibernate.annotations.Type;
 
 @Entity
 @Table(name = "Pages")
-public class Page {
+public class Site {
 	
 
 	@ElementCollection (targetClass=String.class)
-	@CollectionTable(name ="Sites", joinColumns=@JoinColumn(name="page_id"))
+	@CollectionTable(name="Site") @JoinColumn (name="sites")
 	private List sites;
 		
-	 public Page() {
+	 public Site() {
 		
 			
 		}
 	 
-	 public Page(String page, String siteToAdd)
+	 public Site(String page, String siteToAdd)
 	 {
 		 this.page = page;
 		 this.sites = Collections.synchronizedList(new ArrayList());
@@ -62,28 +62,22 @@ public class Page {
 		
 	 }
 	 
+	
+
+
 	 @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	   @Column(name = "page_id")
 	   private int page_id;
-
-
 	
 	@Column (name="timestamp")
 	@Type(type="timestamp")
 	private Date timestamp;
-
-	@Column(name="pagename",nullable=false)
+	
+	
+	@Column(name="pagename",nullable=false, unique=true)
 	private String page; ///e.g. www.google.com
 	
 	
-	public int getPage_id() {
-	return page_id;
-}
-
-public void setPage_id(int page_id) {
-	this.page_id = page_id;
-}
-
 	@Column(name="mood",nullable=false)
 	private int mood;
 	
@@ -112,9 +106,7 @@ public void setPage_id(int page_id) {
 
 
 
-	public int compareTo(Page p) {
-	    return this.page.compareTo(p.page);
-	}
+
 
 	
 	

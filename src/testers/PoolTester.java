@@ -61,31 +61,9 @@ PoolTester pooltester = new PoolTester();
 		new Thread(server).start();
 		Thread.sleep(1000);
 	PageDao dao = new PageDao();
-//		IMoodWatch facade = MoodWatchFacade.instance();
-//		facade.addAllSites(dao.pagesToClient());
-//		
-//		System.out.println("DO WE GET HERE?");
-	String testSite = "www.jatkoaika.com";
-	
-	
-	
-	System.out.println("ALL PAGES ARE:");
-	ArrayList<String> pages = (ArrayList<String>) dao.pagesToClient();
-	for (String s : pages)
-	{
-		System.out.println(s);
-	}
-	
 
-ArrayList<String> test = (ArrayList<String>) dao.threadsToClient().get(testSite);
 
-for (String s : test)
-{
-	System.out.println(s);
-}
-		
-
-//pooltester.startServer();
+pooltester.startServer();
 	
 }	
 	@PostConstruct
@@ -144,7 +122,7 @@ for (String s : test)
 		
 		clients.get(retrieve).stopRunning();
 		clients.remove(retrieve);
-		System.out.println("DELETING CLIENT: " + clients.get(retrieve).getId());
+		//System.out.println("DELETING CLIENT: " + clients.get(retrieve).getId());
 	}
 	
 
