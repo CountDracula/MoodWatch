@@ -3,6 +3,8 @@ package util;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -14,6 +16,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+
+
+
 
 
 
@@ -48,6 +53,42 @@ return pages;
 }
 
 
+
+
+public void updatePage(String pageToAdd, int mood, String timeStamp) throws ParseException
+{
+Session session = DBManager.getSessionFactory().openSession();
+	
+	SQLQuery query = session.createSQLQuery("SELECT * from pages JOIN sites ON pages.page_id = sites.page_id");
+	query.addEntity(Page.class);
+	ArrayList<Page>pages = (ArrayList<Page>) query.list();
+	
+	Map<String, Page> results = new HashMap();
+	
+
+	
+	if (pages.size() !=0)
+	{
+	for (Page p : pages)
+	{
+		results.put(p.getPage(), p);
+			}
+	}
+
+	if (results.containsKey(pageToAdd))
+	{
+		session.beginTransaction();
+		results.get(pageToAdd).setMood(mood);
+		results.get(pageToAdd).setTimestamp(timeStamp);
+		session.saveOrUpdate(results.get(pageToAdd));
+		session.getTransaction().commit();
+
+	}
+
+	session.close();
+	
+}
+
 public void addPage(String pageToAdd, String siteToAdd)
 {
 	
@@ -55,8 +96,12 @@ public void addPage(String pageToAdd, String siteToAdd)
 	
 	SQLQuery query = session.createSQLQuery("SELECT * from pages JOIN sites ON pages.page_id = sites.page_id");
 	query.addEntity(Page.class);
-
-	Date timeNow = new Date();
+	
+	
+	SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:MM");
+	
+	Date date = new Date();
+	String timeNow = format.format(date);
 
 ArrayList<Page>pages = (ArrayList<Page>) query.list();
 

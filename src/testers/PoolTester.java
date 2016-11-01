@@ -39,6 +39,7 @@ import controller.Server;
 public class PoolTester {
 public static Server server;
 
+
 @ManagedProperty(value = "#{clients}")
 public  ArrayList<UserClient> clients;
 
@@ -55,19 +56,19 @@ PoolTester pooltester = new PoolTester();
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	
 
 
 		new Thread(server).start();
 		Thread.sleep(1000);
-	PageDao dao = new PageDao();
+	
 
 
-pooltester.startServer();
+pooltester.createTestClients();
 	
 }	
+	
 	@PostConstruct
-	public void startServer() throws InterruptedException, UnknownHostException, IOException
+	public void createTestClients() throws InterruptedException, UnknownHostException, IOException
 	{
 		
 			
@@ -104,6 +105,7 @@ pooltester.startServer();
 	{
 		int retrieve = Integer.parseInt(client);
 	clients.get(retrieve).stopRunning();
+	// Add call to saveData
 
 	
 	}
@@ -114,6 +116,9 @@ pooltester.startServer();
 		clients.get(retrieve).setRunning(true);
 	}
 	
+	
+	
+	
 	public void deleteClient(String client) throws IOException
 	{
 		int retrieve = Integer.parseInt(client);
@@ -122,7 +127,10 @@ pooltester.startServer();
 		
 		clients.get(retrieve).stopRunning();
 		clients.remove(retrieve);
-		//System.out.println("DELETING CLIENT: " + clients.get(retrieve).getId());
+		// Add call to saveData
+		
+		
+		
 	}
 	
 

@@ -1,5 +1,6 @@
 package model;
 
+import java.text.ParseException;
 import java.util.List;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -37,6 +38,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.Type;
+
 
 
 
@@ -101,7 +103,7 @@ private Date timestamp;
 		this.timestamp = timestamp;
 	}
 
-	public void submit()
+	public void submit() throws ParseException
 	{
 		 HttpServletRequest request = (HttpServletRequest)FacesContext.getCurrentInstance().getExternalContext().getRequest();
 	        String pageToAdd = request.getParameter("testForm:page");
@@ -132,6 +134,8 @@ private Date timestamp;
 		return dao.getPSF();
 	}
 	
+	
+
 
 }
 	 

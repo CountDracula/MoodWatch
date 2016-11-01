@@ -69,8 +69,8 @@ public class Page {
 
 	
 	@Column (name="timestamp")
-	@Type(type="timestamp")
-	private Date timestamp;
+	
+	private String timestamp;
 
 	@Column(name="pagename",nullable=false)
 	private String page; ///e.g. www.google.com
@@ -89,12 +89,12 @@ public void setPage_id(int page_id) {
 	
 	
 
-	public Date getTimestamp() {
+	public String getTimestamp() {
 		return timestamp;
 	}
 
 
-	public void setTimestamp(Date timestamp) {
+	public void setTimestamp(String timestamp) {
 		this.timestamp = timestamp;
 	}
 

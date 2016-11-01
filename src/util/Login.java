@@ -35,7 +35,7 @@ public class Login {
 		{
 			context.getCurrentInstance().addMessage("loginForm:error", new FacesMessage(FacesMessage.SEVERITY_WARN, "Incorrect username and password", "Wrong username / password, please check your input."));
 		
-			return "adminLogin";
+			return "/adminLogin?faces-redirect=true";
 		}
 	}
 	
@@ -48,7 +48,7 @@ public class Login {
 		     user = null;
 		     password = null;
 			 session.invalidate();
-		     return "index?faces-redirect=true";
+		     return "/index.xhtml?faces-redirect=true";
 	}
 	
 	public String getPassword() {

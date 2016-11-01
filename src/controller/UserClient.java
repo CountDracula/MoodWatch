@@ -7,9 +7,15 @@ import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.URL;
 import java.net.UnknownHostException;
+import java.text.ParseException;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 import javax.faces.bean.ManagedBean;
 
@@ -92,13 +98,23 @@ import util.PageDao;
             
        
         public void run() {
-        	
-           running = true;
+        	 running = true;
+        	  try {
+        	clientSocket = new Socket(host, portNumber);
+			ip =(((InetSocketAddress) clientSocket.getRemoteSocketAddress()).getAddress()).toString().replace("/","");
+			System.out.println("I am client # " + this.id + " and I connected to : " + clientSocket.getRemoteSocketAddress());
+        	  }	
+        
+		
+    	catch (IOException e1) {
+		// TODO Auto-generated catch block
+		e1.printStackTrace();
+	}
   
 
-        try {
-        	
-        	
+      
+
+        	/// Push all sites and threads to user.
         	PageDao dao = new PageDao();
         	Collection<String> sites = dao.sitesToClient();
         	Map<String, List<String>> threads = dao.threadsToClient();
@@ -106,25 +122,31 @@ import util.PageDao;
         	
         	for (String s : sites)
         	{
+        		/// Can not add by URL so convert to name (header?) with this
         		String k = facade.addSite(s);
         		System.out.println(k);
-        	
-        		
-        		
+        		facade.addAllThreads(k, threads.get(s));
+        	    	
         	}
         	
-        
+   
+        	
+        	
         	facade.startEngine();
+        	 Map<String, Map<String, Integer>> allMoods = new HashMap(); 
+        			 allMoods= facade.getAllMoods();
+ 	        System.out.println("MOODS ARE EMPTY?: " + allMoods.isEmpty());  	
         	
         	
-        	//TODO send updates over socket?
-			clientSocket = new Socket(host, portNumber);
-			ip =(((InetSocketAddress) clientSocket.getRemoteSocketAddress()).getAddress()).toString().replace("/","");
-			System.out.println("I am client # " + this.id + " and I connected to : " + clientSocket.getRemoteSocketAddress());
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+        	//TODO send updates over socket
+			
+       
+        	
+        	
+        	
+        	
+        	
+        	
     
         try {
 			out = new PrintWriter(clientSocket.getOutputStream(),true);
@@ -148,9 +170,7 @@ import util.PageDao;
 		
    //  out.println( msg );
 	//	System.out.println(msg + " sent to server" + "from client" + getId());
-		 
 
-		 
 		 //// DO stuff with Facade
          
         }
@@ -162,9 +182,13 @@ import util.PageDao;
 			// TODO Auto-generated catch block
 		//	e.printStackTrace();
 		//}
-        }
        
-
+        
+        	
+        		
+        	}
+        		
+        
             
         public Socket getClientSocket() {
 			return clientSocket;
@@ -181,6 +205,7 @@ import util.PageDao;
 		this.running = false;
 		System.out.println("Stopping client #: " + this.id);
 		System.out.println("RUNNING ON: " + running);
+		
 		
 		
 				
