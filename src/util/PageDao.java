@@ -32,6 +32,8 @@ import org.hibernate.annotations.Synchronize;
 
 import controller.Server;
 
+
+/// Contains various methods to retrieve records from DB 
 public class PageDao {
 
 	
@@ -193,8 +195,6 @@ session.close();
 
 return allSites;
 }
-
-		
 
 
 

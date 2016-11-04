@@ -45,7 +45,6 @@ public class Server extends Thread {
     private ArrayList<ClientHandler> connections;
     private int portNumber;
     public static DBManager dbConn;
-
    private BufferedReader in = null;
 
 
@@ -66,7 +65,7 @@ public class Server extends Thread {
     	// Init DB
     	DBManager.buildSessionFactory();
     	
-    	///Create admin user in db for login validation page
+    	///Create admin user in DB for login validation page
     	LoginDAO logindao = new LoginDAO();
     	logindao.addUser("administrator", "admin");
     	
@@ -85,24 +84,19 @@ public class Server extends Thread {
   @Override
     public void run() {
 	 running = true;
-	 IMoodWatch facade;
-	 facade = MoodWatchFacade.instance();
-	 facade.runDesktop();
+	
 
-      // TODO: use non-fixed pool? && make acceptClients() method so this shit doesn't get unreadable..
-	  // Can be moved to acceptClients()?
+      // TODO: use non-fixed pool? // Can be moved to acceptClients()?
  	  threadPool = Executors.newFixedThreadPool(5);
 
  	  
- 	 // Save data every X minutes  
- 	//ScheduledExecutorService exec = Executors.newScheduledThreadPool(1);
- 	//exec.scheduleAtFixedRate(periodicSaveData , 0, 15, TimeUnit.MINUTES);
+ 	 
  	
  	/// Method that listens to port 6066 and handles client connection(s)
    	try {
 		acceptClients();
 	} catch (IOException e) {
-		// TODO Auto-generated catch block
+		
 		e.printStackTrace();
 	}
    
@@ -121,7 +115,7 @@ public void acceptClients() throws IOException
    	   		try {
    	 			clientSocket = serverSocket.accept();
    	 		} catch (IOException e) {
-   	 			// TODO Auto-generated catch block
+   	 	
    	 			e.printStackTrace();
    	 		}
    	   	
@@ -142,13 +136,7 @@ public void acceptClients() throws IOException
   		
 }
     	
-Runnable periodicSaveData = new Runnable() {
-   	    public void run() {
-   	        /// Add method call (e.g. saveData() to save data to DB)
-   	    }
-   	};
-  
-  
+
   class ClientHandler implements Runnable 
   {
       private Socket connection;
@@ -177,7 +165,7 @@ Runnable periodicSaveData = new Runnable() {
                   System.out.println("Server received: " + line + " from client");
               }
                
-              //Client disconnects,close socket
+              //No more stuff from client, disconnect..
               out.flush();
               out.close();
               br.close();

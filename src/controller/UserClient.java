@@ -9,6 +9,7 @@ import java.net.URL;
 import java.net.UnknownHostException;
 import java.text.ParseException;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,7 +25,6 @@ import net.MoodWatchFacade;
 import util.Facade;
 import util.PageDao;
 
- // this class handles each client connection
 
 	@ManagedBean (name="client")
     public class UserClient implements Runnable {
@@ -99,6 +99,7 @@ import util.PageDao;
        
         public void run() {
         	 running = true;
+        		facade.startEngine();
         	  try {
         	clientSocket = new Socket(host, portNumber);
 			ip =(((InetSocketAddress) clientSocket.getRemoteSocketAddress()).getAddress()).toString().replace("/","");
@@ -107,51 +108,71 @@ import util.PageDao;
         
 		
     	catch (IOException e1) {
-		// TODO Auto-generated catch block
 		e1.printStackTrace();
 	}
   
 
       
 
-        	/// Push all sites and threads to user.
+        	/// Push all sites and threads to the client.
         	PageDao dao = new PageDao();
         	Collection<String> sites = dao.sitesToClient();
         	Map<String, List<String>> threads = dao.threadsToClient();
         	
-        	
-        	for (String s : sites)
-        	{
-        		/// Can not add by URL so convert to name (header?) with this
-        		String k = facade.addSite(s);
-        		System.out.println(k);
-        		facade.addAllThreads(k, threads.get(s));
-        	    	
+/// Test "method" for trying to update pages. Doesn't work properly.
+for (String s : sites)
+{	
+	
+String k = facade.addSite(s);
+System.out.println("Converting from " + s + "to " + k);
+facade.addAllThreads(k, threads.get(s));
+        		
+   Map<String, Integer> moodOfSite = facade.getMood(k);
+        		
+        		for (Map.Entry<String, Integer> entry : moodOfSite.entrySet())
+        		{
+        			
+        			try {
+						dao.updatePage(s, entry.getValue(), entry.getKey());
+					} catch (ParseException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+        			
+        			
+        		}
+        		
+        		
         	}
+        
+        
         	
-   
         	
         	
-        	facade.startEngine();
-        	 Map<String, Map<String, Integer>> allMoods = new HashMap(); 
-        			 allMoods= facade.getAllMoods();
- 	        System.out.println("MOODS ARE EMPTY?: " + allMoods.isEmpty());  	
+        	/// Debugging for retrieving moods
+        	System.out.println("ARE THE THREADS EMPTY?::" + facade.getAllPages().isEmpty());
+    		System.out.println("ARE THE SITES EMPTY?::" + facade.getAllSites().isEmpty());
+                           	 Map<String, Map<String, Integer>> allMoods = new HashMap(); 
+        	allMoods= facade.getAllMoods();
+ 	        System.out.println("ARE THE MOODS EMPTY?:: " + allMoods.isEmpty());  	
+ 	        
+ 	        String testSite = "Aamulehti";
+ 	        System.out.println("ARE THE MOODS FOR SITE + " + testSite + "EMPTY ?" + facade.getMood(testSite).isEmpty());
+ 	        
+ 	    
+ 	        
         	
         	
         	//TODO send updates over socket
 			
        
         	
-        	
-        	
-        	
-        	
+
         	
     
         try {
 			out = new PrintWriter(clientSocket.getOutputStream(),true);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
         String msg = "Testing";
@@ -160,7 +181,7 @@ import util.PageDao;
 		
 		
 		
-		 //Send message
+//Send message (used to test socket communication, disabled for now)
           
 			
 	//	} catch (IOException e) {

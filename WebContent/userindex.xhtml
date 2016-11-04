@@ -1,35 +1,53 @@
 <!DOCTYPE html>
 
 <html lang="en"
-      xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:c="http://java.sun.com/jsf/core">
-    <h:head>
-        <title>Welcome, normal user</title>
+   	xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"  >
+     
+      <h:head>
+        <title>Overview of current tracked sites</title>
         <h:outputStylesheet name="common-style.css" library="css" />
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /> 
     </h:head>
     <h:body>
-    <h1>Hellou, faggot: </h1>
-    
-    <table>
-    
-    <tr>
-    <td>Page</td>
-    <td>Site</td>
-    <td>Mood</td>
-    </tr>
-    
-    <tr>
-    <td>www.google.com</td>
-    <td>www.google.com/dikke</td>
-    <td>15</td>
-    </tr>
-    
-    </table>
-    
-    
-    
-<!-- Replace this with data table or the graph (instruction in bookmarks) -->
+    <h1>Overview of current tracked sites</h1>
+   
+
+
+    <p:dataTable id="allSites" name="allSites" value="#{pagecontroller.getAll()}" var="site" styleClass="order-table" headerClass="order-table-header" tableStyle="width:auto">
+        <p:column headerText="Page">
+       
+        <h:outputText value="#{site.key.page}"></h:outputText>
+        
+        </p:column>
+        
+         <p:column headerText="Site">
+       
+        <h:outputText value="#{site.value}"></h:outputText>
+        
+        </p:column>
+  
+         <p:column headerText="Mood">
+       
+        <h:outputText value="#{site.key.mood}"></h:outputText>
+        
+        </p:column>
+        
+        <p:column headerText="Added on">
+       
+        <h:outputText value="#{site.key.timestamp}"></h:outputText>
+        
+        </p:column>
+          
+        </p:dataTable>
+        
+        <br></br>
+<h:form>
+<h:commandLink value="Back to the index" action="/index.xhtml?faces-redirect=true"></h:commandLink>
+</h:form>
+      
     </h:body>
 </html>

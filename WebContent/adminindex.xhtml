@@ -6,7 +6,7 @@
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:c="http://java.sun.com/jsf/core">
     <h:head>
-        <title>Welcome, root</title>
+        <title>Welcome, #{logincontroller.user}</title>
         <h:outputStylesheet name="common-style.css" library="css" />
     </h:head>
     <h:body>
@@ -17,9 +17,9 @@
    <br></br>
        <h:outputLink value="editWebsites.xhtml">View, add or edit websites</h:outputLink>
       <br></br>
-     
-      <h:commandButton value="Logout" action="#{logincontroller.logOut()}"></h:commandButton>
-      
+     <h:form>
+ <h:commandButton value="Logout" action="#{logincontroller.logOut()}"></h:commandButton>
+      </h:form>
       
     </h:body>
 </html>

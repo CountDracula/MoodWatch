@@ -20,10 +20,10 @@ User	<h:inputText id="user" name="user" required="true" requiredMessage="Field c
 <br></br>
 Password	<h:inputSecret id="password" name="password" required="true" requiredMessage="Field can't be empty" value="#{logincontroller.password}"></h:inputSecret>
 <br></br>
-<h:outputText id="error" name="error">Test</h:outputText>
-<h:message for="error"></h:message>
-<br></br>
+<h:outputText id="error" name="error"></h:outputText>
+<h:message for="error" style="color:red"></h:message>
 
+<br></br>
 <h:commandButton value="Login" action="#{logincontroller.validateLogin()}"></h:commandButton>
 </h:form>
       

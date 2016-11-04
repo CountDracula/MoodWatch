@@ -13,4 +13,14 @@
     <servlet-name>facesServlet</servlet-name>
     <url-pattern>*.xhtml</url-pattern>
   </servlet-mapping>
+  
+   <filter-mapping>
+  <filter-name>UserFilter</filter-name>
+  <url-pattern>/editEngines.xhtml</url-pattern>
+   <url-pattern>/editWebsites.xhtml</url-pattern>
+    <url-pattern>/adminindex.xhtml</url-pattern>
+  </filter-mapping>
+ 
+  
+  
 </web-app>

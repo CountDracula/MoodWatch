@@ -4,7 +4,8 @@
    	xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"  >
       
    
 
@@ -14,31 +15,47 @@
         <h:outputStylesheet name="common-style.css" library="css" />
     </h:head>
     <h:body>
-  
+  <h1>Added pages so far</h1>
      
         
-        <h:dataTable id="allPages" name="allPages" value="#{pagecontroller.getPages()}" var="page" styleClass="order-table" headerClass="order-table-header">
-        <h:column>
+        <p:dataTable id="allPages" name="allPages" value="#{pagecontroller.getPages()}" var="page" styleClass="order-table" headerClass="order-table-header">
+        <p:column>
         <f:facet name="header">Page name</f:facet>
         #{page.page}
-        </h:column>
+        </p:column>
         
-        <h:column>
+         <p:column>
+        <f:facet name="header">Sites</f:facet>
+        #{page.sites}
+        </p:column>
+        
+        
+        <p:column>
         <f:facet name="header">Timestamp</f:facet>
         #{page.timestamp}
-        </h:column>
-        </h:dataTable>
+        </p:column>
+        </p:dataTable>
         
+    <br></br>
     
-    <h2>Add a new page to track</h2>
+    <h4>Add a new page to track</h4>
+    <h5>Please add the page as: example.com</h5>
 <h:form id="testForm">
-Page	<h:inputText id="page" name="page" value="#{pagecontroller.page}">Page</h:inputText>
+Page	<h:inputText required="true" requiredMessage="Please enter a page" id="page" name="page" value="#{pagecontroller.page}">Page</h:inputText>	<h:message for="page" style="color:red" styleClass="error" />
 <br></br>
-Site	<h:inputText id="site" name="site" value="#{pagecontroller.site}">Site</h:inputText>
+Site	<h:inputText required="true" requiredMessage="Please enter a site." id="site" name="site" value="#{pagecontroller.site}">Site</h:inputText>	<h:message for="site" style="color:red" styleClass="error"/>
+
 <br></br>
 
 <h:commandButton value="Submit" action="#{pagecontroller.submit()}"></h:commandButton>
+<br></br>
+
+
+
 </h:form>
+<br></br>
+<h:form>  <h:commandLink value="Back to the admin index" action="/adminindex.xhtml?faces-redirect=true"></h:commandLink></h:form>
+
       
     </h:body>
 </html>
